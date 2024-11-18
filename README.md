@@ -1,15 +1,6 @@
 
 
- 
-## Development server
 
-<<<<<<< HEAD
-Run `ng serve` for a dev server. Navigate to `http://192.168.1.83:4200/`. The app will automatically reload if you change any of the source files.
-=======
-Run `ng serve` for a dev server.  
->>>>>>> 8b00e2d02eb2d90b56563d8dbe41263a6c7f7464
-
-## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
