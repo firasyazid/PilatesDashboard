@@ -47,6 +47,7 @@ onSubmit() {
       this.localstorageService.setUserName(user.fullname || '');
       this.localstorageService.setRole(user.role || '');
 
+      console.log(user);
       // Check if the user is an admin
       if (!user.isAdmin) {
         this.authError = true;

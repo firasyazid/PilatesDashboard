@@ -66,6 +66,8 @@ export class OrdersListComponent implements OnInit {
   }
  
   roleOptions = Object.values(Role);
+
+  
   openEditDialog(user: User) {
     this.newUser = { ...user };
     this.displayDialog2 = true;
@@ -194,14 +196,14 @@ private _getAppointements() {
   onUpdateUser() {
     this.userService.updateUser(this.newUser).subscribe(
       response => {
-         this.openSnackBar2('User updated successfully', 'Close');
+         this.openSnackBar2('user  mis à jour avec succès', 'Close');
 
         this.displayDialog2 = false;  
         this._getUsers();
       },
       error => {
-        console.error('Error updating user', error);
-        this.openSnackBar2('User is not updated ! ', 'Close');
+        console.error('Error ', error);
+        this.openSnackBar2('Erreur ! ', 'Close');
 
       }
     );

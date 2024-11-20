@@ -14,8 +14,7 @@ export class HeaderComponent implements OnInit {
 	toggleChat: boolean = true;
 	toggleSingle: boolean = true;
 	userName: string | null = null;  
-	role  : string | null = null;
-
+ 
 	
 	constructor( 
 		private localstorageService: LocalstorageService
@@ -24,8 +23,7 @@ export class HeaderComponent implements OnInit {
 	
 	ngOnInit(): void {
 		this.userName = this.localstorageService.getUserName();
-		this.role = this.localstorageService.getRole();
-
+ 
 	}
 	
 	

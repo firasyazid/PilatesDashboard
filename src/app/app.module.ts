@@ -732,6 +732,7 @@ import { QuestionsComponent } from './questions/questions.component';
 import { UpdateQuestionComponent } from './update-question/update-question.component';
 import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.component';
 import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-and-drop-component.component';
+import { SessionsComponent } from './sessions/sessions.component';
  
 @NgModule({
   declarations: [
@@ -1370,6 +1371,7 @@ import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-an
          UpdateQuestionComponent,
          MultipleChoiceComponent,
          DragAndDropComponentComponent,
+         SessionsComponent,
   ],
   imports: [
     NgxPaginationModule,

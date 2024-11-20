@@ -14,7 +14,7 @@ export class Cours {
     price: number,
     intensityLevel: 'Débutant' | 'Intermédiaire' | 'Avancé' = 'Débutant',
     createdAt: Date = new Date(),
-    _id?: string  // Optional parameter for _id
+    _id?: string   
   ) {
     this._id = _id;
     this.name = name;

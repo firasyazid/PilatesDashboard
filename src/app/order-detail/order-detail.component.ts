@@ -28,6 +28,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class OrderDetailComponent implements OnInit {
   imageDisplay!: string | ArrayBuffer;
+  displayDialog2 = false;
+  isModal = false;
+
   medecin:Medecin[] = [];
   newMedecin:Medecin2 = { 
     _id: '',
@@ -118,6 +121,33 @@ DeleteCours(Id: string) {
   }
   );
 }
+
+ 
+openEditDialog(user: Cours) {
+  this.newCours = { ...user };
+  this.displayDialog2 = true;
+}
+
+
+onUpdateCours() {
+  this.userService.updateCours(this.newCours).subscribe(
+    response => {
+       this.openSnackBar2('Cours mis à jour avec succès', 'Fermer');
+
+      this.displayDialog2 = false;  
+      this.GetCours();
+    },
+    error => {
+      console.error('Erreur lors de la mise à jour du cours', error);
+      this.openSnackBar2('Le cours n\'a pas pu être mis à jour !', 'Fermer');
+    }
+  );
+}
+
+
+
+
+
 
 
 

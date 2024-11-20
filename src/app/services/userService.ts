@@ -17,6 +17,8 @@ import { Question } from '../models/questions';
 import { Section } from '../models/section';
 import { HttpHeaders } from '@angular/common/http';
 import { Cours } from '../models/cours';
+import { Coach } from '../models/coach';
+import { ScheduledSession } from '../models/scheduledSession';
 
 
 export interface WeeklyBooking {
@@ -102,6 +104,39 @@ deleteCours(coursId: string): Observable<object> {
   }
 
 
+/////coachs 
+
+getCoach(): Observable<Coach[]> {
+  return this.http.get<Coach[]>('http://localhost:3001/api/v1/coaches');
+}
+
+deleteCoach(coursId: string): Observable<object> {
+  return this.http.delete<object>(`http://localhost:3001/api/v1/coaches/${coursId}`);
+}
+ 
+createCoach(productData: FormData): Observable<Coach> {
+  return this.http.post<Coach>('http://localhost:3001/api/v1/coaches/', productData);
+}
+
+updateCoach(user: Coach): Observable<Coach> {
+  return this.http.put<Coach>(`http://localhost:3001/api/v1/coaches/${user.id}`, user);
+}
+
+///////// ScheduledSession
+
+createSession(user: ScheduledSession): Observable<ScheduledSession> {
+  return this.http.post<ScheduledSession>('http://localhost:3001/api/v1/scheduledSessions', user);
+}
+
+getSession(): Observable<ScheduledSession[]> {
+  return this.http.get<ScheduledSession[]>('http://localhost:3001/api/v1/scheduledSessions');
+}
+
+deleteSession(coursId: string): Observable<object> {
+  return this.http.delete<object>(`http://localhost:3001/api/v1/scheduledSessions/${coursId}`);
+}
+ 
+
 
 
 
@@ -135,13 +170,6 @@ deleteCours(coursId: string): Observable<object> {
   getUsersbyExpire(): Observable<User[]> {
     return this.http.get<User[]>('https://emsat-project-backend.onrender.com/api/v1/users/users-by-expiry');
   }
-
- 
-
-
-
-  
-
   getAppointements(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>('http://192.168.1.83:3005/api/v1/Appointement/');
   }

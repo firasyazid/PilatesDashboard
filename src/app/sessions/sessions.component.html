@@ -1,0 +1,268 @@
+<div class="content-body">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12">
+        <div class="card bg-transparent shadow-none">
+          <div class="card-header flex-wrap border-0 p-0 justify-content-start">
+            <div class="table-tabs mr-2 mb-3 mr-auto">
+              <ul class="nav nav-tabs" ngbNav #nav="ngbNav" role="tablist">
+                <li class="nav-item" ngbNavItem="AllSessions">
+                  <a href="javascript:void(0);" data-toggle="modal" (click)="open(addSessionModal)"
+                    class="btn btn-outline-primary mr-auto mb-2">
+                    Planifier une session
+                  </a>
+
+
+
+
+
+
+                  <!-- Filter Buttons -->
+                  <div style="clear: both; margin-top: 1rem;">
+                    <div class="btn-group">
+                      <button class="btn filter-button" [ngClass]="{ 'active-filter': activeFilter === 'today' }"
+                        (click)="filterToday()">
+                        Aujourd'hui
+                      </button>
+                      <button class="btn filter-button" [ngClass]="{ 'active-filter': activeFilter === 'week' }"
+                        (click)="filterThisWeek()">
+                        Cette semaine
+                      </button>
+                      <button class="btn filter-button" [ngClass]="{ 'active-filter': activeFilter === 'month' }"
+                        (click)="filterThisMonth()">
+                        Ce mois
+                      </button>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+                  <!-- add -->
+
+                  <ng-template #addSessionModal let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">Ajouter une session</h4>
+                      <button type="button" class="close" aria-label="Fermer" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form (ngSubmit)="_addSession(newScheduledSession)" #addSessionForm="ngForm" novalidate>
+                        <!-- Nom de la session -->
+                        <div class="form-group">
+                          <label class="text-black font-w500">Nom de la session</label>
+                          <input
+                            type="text"
+                            class="form-control"
+                            [(ngModel)]="newScheduledSession.name"
+                            name="name"
+                            placeholder="Entrez le nom de la session"
+                            required
+                            #name="ngModel"
+                          />
+                          <div *ngIf="name.invalid && name.touched" class="text-danger">
+                            Le nom de la session est obligatoire.
+                          </div>
+                        </div>
+                  
+                        <!-- Date -->
+                        <div class="form-group">
+                          <label class="text-black font-w500">Date</label>
+                          <input
+                            type="date"
+                            class="form-control"
+                            [(ngModel)]="newScheduledSession.date"
+                            name="date"
+                            required
+                            #date="ngModel"
+                          />
+                          <div *ngIf="date.invalid && date.touched" class="text-danger">
+                            La date est obligatoire.
+                          </div>
+                        </div>
+                  
+                        <!-- Heure de début -->
+                        <div class="form-group">
+                          <label class="text-black font-w500">Heure de début</label>
+                          <input
+                            type="time"
+                            class="form-control"
+                            [(ngModel)]="newScheduledSession.startTime"
+                            name="startTime"
+                            required
+                            #startTime="ngModel"
+                          />
+                          <div *ngIf="startTime.invalid && startTime.touched" class="text-danger">
+                            L'heure de début est obligatoire.
+                          </div>
+                        </div>
+                  
+                        <!-- Heure de fin -->
+                        <div class="form-group">
+                          <label class="text-black font-w500">Heure de fin</label>
+                          <input
+                            type="time"
+                            class="form-control"
+                            [(ngModel)]="newScheduledSession.endTime"
+                            name="endTime"
+                            required
+                            #endTime="ngModel"
+                          />
+                          <div *ngIf="endTime.invalid && endTime.touched" class="text-danger">
+                            L'heure de fin est obligatoire.
+                          </div>
+                        </div>
+                  
+                        <!-- Capacité maximale -->
+                        <div class="form-group">
+                          <label class="text-black font-w500">Capacité maximale</label>
+                          <input
+                            type="number"
+                            class="form-control"
+                            [(ngModel)]="newScheduledSession.maxCapacity"
+                            name="maxCapacity"
+                            placeholder="Entrez la capacité maximale"
+                            required
+                            #maxCapacity="ngModel"
+                          />
+                          <div *ngIf="maxCapacity.invalid && maxCapacity.touched" class="text-danger">
+                            La capacité maximale est obligatoire.
+                          </div>
+                        </div>
+                  
+                        <!-- Nom du coach -->
+                        <div class="form-group">
+                          <label class="text-black font-w500">Nom du coach</label>
+                          <select
+                            class="form-control"
+                            [(ngModel)]="newScheduledSession.coach._id"
+                            name="coachId"
+                            required
+                            #coachId="ngModel"
+                          >
+                            <option *ngFor="let coach of coaches" [value]="coach.id">{{ coach.name }}</option>
+                          </select>
+                          <div *ngIf="coachId.invalid && coachId.touched" class="text-danger">
+                            Veuillez sélectionner un coach.
+                          </div>
+                        </div>
+                  
+                        <!-- Cours -->
+                        <div class="form-group">
+                          <label class="text-black font-w500">Cours</label>
+                          <select
+                            class="form-control"
+                            [(ngModel)]="newScheduledSession.cours._id"
+                            name="coursId"
+                            required
+                            #coursId="ngModel"
+                          >
+                            <option *ngFor="let cours of courses" [value]="cours.id">{{ cours.name }}</option>
+                          </select>
+                          <div *ngIf="coursId.invalid && coursId.touched" class="text-danger">
+                            Veuillez sélectionner un cours.
+                          </div>
+                        </div>
+                  
+                        <!-- Submit Button -->
+                        <div class="form-group text-center">
+                          <button
+                            type="submit"
+                            class="btn btn-primary"
+                            style="background-color: #CF6A68; border-color: #CF6A68;"
+                            [disabled]="addSessionForm.invalid"
+                          >
+                            Confirmer
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </ng-template>
+                  
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <ng-template ngbNavContent>
+                    <div class="tab-pane fade active show" id="AllSessions">
+                      <div class="table-responsive rounded table-hover">
+                        <table class="table text-black card-table dataTable mb-4 table-responsive-lg dataTablesCard"
+                          id="dataTable1">
+                          <thead class="bg-primary">
+                            <tr>
+                              <th>Nom du cours</th>
+                              <th>Cours</th>
+                              <th>Coach</th>
+                              <th>Date</th>
+                              <th>Heure de début</th>
+                              <th>Heure de fin</th>
+                              <th>Capacité maximale</th>
+                              <th>Capacité actuelle</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr class="alert alert-dismissible border-0"
+                              *ngFor="let session of filteredSessions | paginate: { itemsPerPage: 8, currentPage: p }">
+                              <td>{{ session.name }}</td>
+                              <td>{{ session.cours?.name }}</td>
+                              <td>{{ session.coach?.name }}</td>
+                              <td>{{ session.date | date: 'dd/MM/yyyy' }}</td>
+                              <td>{{ session.startTime }}</td>
+                              <td>{{ session.endTime }}</td>
+                              <td>{{ session.maxCapacity }}</td>
+                              <td>{{ session.currentCapacity }}</td>
+                              <td>
+                                <div class="dropdown ml-auto dropdown-no-icon" ngbDropdown display="dynamic">
+                                  <div class="btn-link" data-toggle="dropdown" aria-expanded="false" role="button" ngbDropdownToggle>
+                                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.0005 12C11.0005 12.5523 11.4482 13 12.0005 13C12.5528 13 13.0005 12.5523 13.0005 12C13.0005 11.4477 12.5528 11 12.0005 11C11.4482 11 11.0005 11.4477 11.0005 12Z" stroke="#3E4954" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M18.0005 12C18.0005 12.5523 18.4482 13 19.0005 13C19.5528 13 20.0005 12.5523 20.0005 12C20.0005 11.4477 19.5528 11 19.0005 11C18.4482 11 18.0005 11.4477 18.0005 12Z" stroke="#3E4954" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M4.00049 12C4.00049 12.5523 4.4482 13 5.00049 13C5.55277 13 6.00049 12.5523 6.00049 12C6.00049 11.4477 5.55277 11 5.00049 11C4.4482 11 4.00049 11.4477 4.00049 12Z" stroke="#3E4954" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                  </svg>
+                                  </div>
+                                  <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                                  <a class="dropdown-item text-info"  
+
+                                   
+                                  >Modifier session</a>
+                                  <a class="dropdown-item text-black" 
+                                  (click)="deleteConfirmation(session.id || '')"
+                                     >
+                                    Supprimer
+                                  </a>
+                                  </div>
+                                </div>
+                                </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                      </div>
+                    </div>
+                  </ng-template>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div [ngbNavOutlet]="nav" class=""></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

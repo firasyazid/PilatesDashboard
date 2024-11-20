@@ -26,7 +26,21 @@
                     ></i>
                     <span class="nav-text" 
                     [routerLink]="['/admin/customer-list']"
-                    >Sections </span>
+                    >Coachs </span>
+                </a>
+              
+            </li>
+
+            <li [ngClass]="{'mm-active': chartsArray.indexOf(currentHref) > -1}">
+                <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false" 
+                [routerLink]="['/admin/sessions']"
+                >
+                  <i class="flaticon-084-share" 
+                    [routerLink]="['/admin/sessions']"
+                    ></i>
+                    <span class="nav-text" 
+                    [routerLink]="['/admin/sessions']"
+                    >Sessions </span>
                 </a>
               
             </li>

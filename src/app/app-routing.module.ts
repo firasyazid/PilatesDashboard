@@ -138,6 +138,7 @@ import { UpdateQuestionComponent } from './update-question/update-question.compo
 import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.component';
 import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-and-drop-component.component';
 import { AuthGuardService } from './services/AuthGuardService';
+import { SessionsComponent } from './sessions/sessions.component';
 
 
 
@@ -155,6 +156,7 @@ const routes: Routes = [
           { path: 'index-2', component: DarkComponent },
           { path: 'dashboard-2', component: DarkComponent },
           { path: 'orders-list', component: OrdersListComponent },
+          {path: 'sessions', component: SessionsComponent},
           { path: 'order-detail', component: OrderDetailComponent },
           { path: 'customer-list', component: CustomersComponent },
           { path: 'analytics', component: AnalyticsComponent },

@@ -16,6 +16,8 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+
+	
     <div class="modal-body">
         <form (ngSubmit)="addCours(newCours)">
             <div class="form-group">
@@ -35,8 +37,12 @@
                 <input type="number" class="form-control" [(ngModel)]="newCours.price" name="price" placeholder="Entrez le prix">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Ajouter</button>
-            </div>
+				<button type="submit" class="btn btn-primary" style="background-color: #CF6A68; border-color: #CF6A68;">
+					Confirmer
+					</button>
+				</div>
+
+
         </form>
     </div>
 </ng-template>
@@ -84,6 +90,11 @@
 						</svg>
 					  </div>
 					  <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+						<a class="dropdown-item text-info"  
+						
+						(click)="openEditDialog(course)"
+						>Modifier cours</a>
+
 						<a class="dropdown-item text-black" 
 						   (click)="deleteConfirmation(course._id || '')">
 						  Supprimer
@@ -97,6 +108,46 @@
 			<pagination-controls (pageChange)="p = $event"></pagination-controls>
 		  </div>
 		  
+
+
+
+		  <p-dialog header="Modifier cours" [(visible)]="displayDialog2" [style]="{width: '50%', height: '80%'}"
+		  [responsive]="true" [modal]="isModal">
+		  <form (ngSubmit)="onUpdateCours()">
+			 
+			<div class="form-group">
+				<label for="fullname">Nom du cours</label>
+				<input type="text" class="form-control" id="Nom du cours" name="Nom du cours"
+				  [(ngModel)]="newCours.name" required>
+			  </div>
+
+
+			  <div class="form-group">
+				<label for="email">Description</label>
+				<input type="email" class="form-control" id="Description" name="Description" 
+				[(ngModel)]="newCours.description" required>
+				  required>
+			  </div>
+
+			  <div class="form-group">
+				<label for="phone">Durée</label>
+				<input type="text" class="form-control" id="Durée" name="Durée" 
+				[(ngModel)]="newCours.duration" required>
+			  </div>
+
+			  <div class="form-group">
+				<label for="phone">Prix</label>
+				<input type="text" class="form-control" id="Prix" name="Prix" 
+				[(ngModel)]="newCours.price" required>
+ 			  </div>
+			   <button type="submit" class="btn btn-primary" style="background-color: #CF6A68; border-color: #CF6A68;">
+				Confirmer
+			  </button>
+						</form>
+		</p-dialog>
+
+
+
 
 		<ng-template ngbNavContent>
 			<div class="tab-pane fade active show" id="AllStatus">
