@@ -20,6 +20,7 @@ export class SessionsComponent implements OnInit {
   displayDialog2 = false;
   isModal = false;
   p: number = 1;
+  selectedSession: any = {}; // Holds the session to edit
 
   newScheduledSession: ScheduledSession = {
     name: '',
@@ -169,9 +170,29 @@ export class SessionsComponent implements OnInit {
     }
     
 
+  // Edit session
 
+  // Open the edit session dialog
+  openEditDialog(user: ScheduledSession) {
+    this.newScheduledSession = { ...user };
+    this.displayDialog2 = true;
+  }
 
-
+  // Update session
+  updateSession(): void {
+    this.userService.updateSession(this.newScheduledSession).subscribe(
+      () => {
+        this.displayDialog2 = false;
+  
+        this.openSnackBar('Session mise à jour avec succès!', 'Fermer');
+        this.getSessions();
+      },
+      () => {
+        this.displayDialog = false;
+        this.openSnackBar('Erreur : La session n\'a pas été mise à jour!', 'Fermer');
+      }
+    );
+  }
 
 
 

@@ -20,7 +20,7 @@
                 <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false" 
                 [routerLink]="['/admin/customer-list']"
                 >
-                    <i class="flaticon-084-share" 
+                    <i class="flaticon-381-user-2" 
                     [routerLink]="['/admin/customer-list']"
 
                     ></i>
@@ -35,12 +35,26 @@
                 <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false" 
                 [routerLink]="['/admin/sessions']"
                 >
-                  <i class="flaticon-084-share" 
+                  <i class="flaticon-013-checkmark" 
                     [routerLink]="['/admin/sessions']"
                     ></i>
                     <span class="nav-text" 
                     [routerLink]="['/admin/sessions']"
                     >Sessions </span>
+                </a>
+              
+            </li>
+
+            <li [ngClass]="{'mm-active': chartsArray.indexOf(currentHref) > -1}">
+                <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false" 
+                [routerLink]="['/admin/bookings']"
+                >
+                  <i class="flaticon-012-checkmark" 
+                    [routerLink]="['/admin/bookings']"
+                    ></i>
+                    <span class="nav-text" 
+                    [routerLink]="['/admin/bookings']"
+                    >Bookings </span>
                 </a>
               
             </li>

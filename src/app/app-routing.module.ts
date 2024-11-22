@@ -19,8 +19,7 @@ import { PostDetailsComponent } from './apps/post-details/post-details.component
 import { ComposeComponent } from './apps/email/compose/compose.component';
 import { InboxComponent } from './apps/email/inbox/inbox.component';
 import { ReadComponent } from './apps/email/read/read.component';
-import { CalenderComponent } from './apps/calender/calender.component';
-import { ProductGridComponent } from './apps/shop/product-grid/product-grid.component';
+ import { ProductGridComponent } from './apps/shop/product-grid/product-grid.component';
 import { ProductListComponent } from './apps/shop/product-list/product-list.component';
 import { ProductDetailComponent } from './apps/shop/product-detail/product-detail.component';
 import { OrderComponent } from './apps/shop/order/order.component';
@@ -139,6 +138,7 @@ import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.compo
 import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-and-drop-component.component';
 import { AuthGuardService } from './services/AuthGuardService';
 import { SessionsComponent } from './sessions/sessions.component';
+import { BookingsComponent } from './bookings/bookings.component';
 
 
 
@@ -153,6 +153,7 @@ const routes: Routes = [
           { path: 'index', component: LightComponent },
           { path: 'index-1', component: LightComponent },
           { path: 'dashboard', component: LightComponent },
+          {path: 'bookings', component: BookingsComponent},
           { path: 'index-2', component: DarkComponent },
           { path: 'dashboard-2', component: DarkComponent },
           { path: 'orders-list', component: OrdersListComponent },
@@ -171,8 +172,7 @@ const routes: Routes = [
           { path: 'email-compose', component: ComposeComponent },
           { path: 'email-inbox', component: InboxComponent },
           { path: 'email-read', component: ReadComponent },
-          { path: 'app-calender', component: CalenderComponent },
-          { path: 'ecom-product-grid', component: ProductGridComponent },
+           { path: 'ecom-product-grid', component: ProductGridComponent },
           { path: 'ecom-product-list', component: ProductListComponent },
           { path: 'ecom-product-detail', component: ProductDetailComponent },
           { path: 'ecom-product-order', component: OrderComponent },

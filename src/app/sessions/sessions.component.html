@@ -7,13 +7,31 @@
             <div class="table-tabs mr-2 mb-3 mr-auto">
               <ul class="nav nav-tabs" ngbNav #nav="ngbNav" role="tablist">
                 <li class="nav-item" ngbNavItem="AllSessions">
+
+                 
                   <a href="javascript:void(0);" data-toggle="modal" (click)="open(addSessionModal)"
                     class="btn btn-outline-primary mr-auto mb-2">
                     Planifier une session
                   </a>
-
-
-
+                 
+               
+                  
+                  <ng-template #calendarModal let-modal>
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="modal-basic-title">Calendar</h4>
+                      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <!-- Calendar content will go here -->
+                      <p>Work on your calendar functionality here.</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Close</button>
+                    </div>
+                  </ng-template>
+                  
 
 
 
@@ -36,9 +54,127 @@
                   </div>
 
 
+  
+ 
 
-
-
+                  <p-dialog
+                  header="Modifier session"
+                  [(visible)]="displayDialog2"
+                  [style]="{width: '50%', height: '80%'}"
+                  [responsive]="true"
+                  [modal]="isModal"
+                >
+                  <form (ngSubmit)="updateSession()">
+                    <!-- Nom de la session -->
+                    <div class="form-group">
+                      <label for="name">Nom de la session</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        [(ngModel)]="newScheduledSession.name"
+                        required
+                      />
+                    </div>
+                
+                    <!-- Date -->
+                    <div class="form-group">
+                      <label for="date">Date</label>
+                      <input
+                        type="date"
+                        class="form-control"
+                        id="date"
+                        name="date"
+                        [(ngModel)]="newScheduledSession.date"
+                        required
+                      />
+                    </div>
+                
+                    <!-- Heure de début -->
+                    <div class="form-group">
+                      <label for="startTime">Heure de début</label>
+                      <input
+                        type="time"
+                        class="form-control"
+                        id="startTime"
+                        name="startTime"
+                        [(ngModel)]="newScheduledSession.startTime"
+                        required
+                      />
+                    </div>
+                
+                    <!-- Heure de fin -->
+                    <div class="form-group">
+                      <label for="endTime">Heure de fin</label>
+                      <input
+                        type="time"
+                        class="form-control"
+                        id="endTime"
+                        name="endTime"
+                        [(ngModel)]="newScheduledSession.endTime"
+                        required
+                      />
+                    </div>
+                
+                    <!-- Capacité maximale -->
+                    <div class="form-group">
+                      <label for="maxCapacity">Capacité maximale</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="maxCapacity"
+                        name="maxCapacity"
+                        [(ngModel)]="newScheduledSession.maxCapacity"
+                        required
+                      />
+                    </div>
+                
+                    <!-- Nom du coach -->
+                    <div class="form-group">
+                      <label for="coachId">Nom du coach</label>
+                      <select
+                        class="form-control"
+                        id="coachId"
+                        name="coachId"
+                        [(ngModel)]="newScheduledSession.coach._id"
+                        required
+                      >
+                        <option *ngFor="let coach of coaches" [value]="coach.id">
+                          {{ coach.name }}
+                        </option>
+                      </select>
+                    </div>
+                
+                    <!-- Cours -->
+                    <div class="form-group">
+                      <label for="coursId">Cours</label>
+                      <select
+                        class="form-control"
+                        id="coursId"
+                        name="coursId"
+                        [(ngModel)]="newScheduledSession.cours._id"
+                        required
+                      >
+                        <option *ngFor="let cours of courses" [value]="cours.id">
+                          {{ cours.name }}
+                        </option>
+                      </select>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="form-group text-center">
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        style="background-color: #CF6A68; border-color: #CF6A68;"
+                      >
+                        Confirmer
+                      </button>
+                    </div>
+                  </form>
+                </p-dialog>
+                
 
 
                   <!-- add -->
@@ -183,22 +319,6 @@
                     </div>
                   </ng-template>
                   
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                   <ng-template ngbNavContent>
                     <div class="tab-pane fade active show" id="AllSessions">
                       <div class="table-responsive rounded table-hover">
@@ -238,9 +358,9 @@
                                   </div>
                                   <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
                                   <a class="dropdown-item text-info"  
+                                  (click)="openEditDialog(session)"
 
-                                   
-                                  >Modifier session</a>
+                                   >Modifier session</a>
                                   <a class="dropdown-item text-black" 
                                   (click)="deleteConfirmation(session.id || '')"
                                      >
@@ -256,6 +376,10 @@
                       </div>
                     </div>
                   </ng-template>
+
+
+
+
                 </li>
               </ul>
             </div>

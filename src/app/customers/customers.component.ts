@@ -2,10 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { UserService } from '../services/userService';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ConfirmationService } from 'primeng/api';
-import { Coach } from '../models/coach';
+ import { MatSnackBar } from '@angular/material/snack-bar';
+ import { Coach } from '../models/coach';
 import { timer } from 'rxjs';
 
 @Component({
@@ -34,10 +32,8 @@ export class CustomersComponent implements OnInit {
 	constructor(private modalService: NgbModal,
 		private userService: UserService,
 		private router: Router,
-		private messageService: MessageService,
-		private snackBar: MatSnackBar,
-		private confirmationService: ConfirmationService
-
+ 		private snackBar: MatSnackBar,
+ 
 
 	) {
 

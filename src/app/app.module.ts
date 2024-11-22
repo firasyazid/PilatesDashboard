@@ -18,20 +18,10 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { LightboxModule } from 'ngx-lightbox';
 import { NgxPaginationModule } from 'ngx-pagination';
 
-import { FullCalendarModule } from '@fullcalendar/angular';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
-import interactionPlugin from '@fullcalendar/interaction';
+ 
 
 
-
-FullCalendarModule.registerPlugins([
-	dayGridPlugin,
-	timeGridPlugin,
-	listPlugin,
-	interactionPlugin
-]);
+ 
 
 import { MetismenuAngularModule } from "@metismenu/angular";
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
@@ -135,8 +125,7 @@ import { ComposeComponent } from './apps/email/compose/compose.component';
 import { InboxComponent } from './apps/email/inbox/inbox.component';
 import { ReadComponent } from './apps/email/read/read.component';
 
-import { CalenderComponent } from './apps/calender/calender.component';
-
+ 
 import { ProductGridComponent } from './apps/shop/product-grid/product-grid.component';
 import { ProductListComponent } from './apps/shop/product-list/product-list.component';
 import { ProductDetailComponent } from './apps/shop/product-detail/product-detail.component';
@@ -706,6 +695,7 @@ import { DialogModule } from 'primeng/dialog';
 
 import { MessagesModule } from 'primeng/messages';
  
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 
 import { ToastModule } from 'primeng/toast';
@@ -733,10 +723,11 @@ import { UpdateQuestionComponent } from './update-question/update-question.compo
 import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.component';
 import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-and-drop-component.component';
 import { SessionsComponent } from './sessions/sessions.component';
+import { BookingsComponent } from './bookings/bookings.component';
  
 @NgModule({
   declarations: [
-    AppComponent,
+     AppComponent,
     NgbdSortableHeader,
     
     AdminComponent,
@@ -790,8 +781,7 @@ import { SessionsComponent } from './sessions/sessions.component';
     InboxComponent,
     ReadComponent,
     
-    CalenderComponent,
-    
+     
     ProductGridComponent,
     ProductListComponent,
     ProductDetailComponent,
@@ -1372,8 +1362,10 @@ import { SessionsComponent } from './sessions/sessions.component';
          MultipleChoiceComponent,
          DragAndDropComponentComponent,
          SessionsComponent,
+         BookingsComponent,
   ],
   imports: [
+    FullCalendarModule,
     NgxPaginationModule,
     BrowserModule,MessagesModule,
     DialogModule,
@@ -1410,8 +1402,7 @@ import { SessionsComponent } from './sessions/sessions.component';
     NestableModule,
     NgxSpinnerModule,
     LightboxModule,
-    FullCalendarModule,
-    MetismenuAngularModule,
+     MetismenuAngularModule,
     PerfectScrollbarModule,
     NgxDropzoneModule,
     CarouselModule,

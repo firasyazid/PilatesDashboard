@@ -1,0 +1,104 @@
+<div class="content-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card bg-transparent shadow-none">
+            <div class="card-header flex-wrap border-0 p-0 justify-content-start">
+              <div class="table-tabs mr-2 mb-3 mr-auto">
+                <ul class="nav nav-tabs" ngbNav #nav="ngbNav" role="tablist">
+                  <!-- Sessions Tab -->
+                  <li class="nav-item" ngbNavItem="AllSessions">
+                    <a class="nav-link" ngbNavLink>Calendrier</a>
+                    <ng-template ngbNavContent>
+                      <div class="calendar-container">
+                      
+                      </div>
+                    </ng-template>
+                  
+                  </li>
+  
+                  <!-- Bookings Tab -->
+                  <li class="nav-item" ngbNavItem="AllBookings">
+                    <a class="nav-link" ngbNavLink>Réservations</a>
+                    <ng-template ngbNavContent>
+                      <div class="tab-pane fade active show" id="AllBookings">
+                        <!-- Filter Buttons -->
+                        <div class="btn-group mt-3 mb-3">
+                          <button class="btn filter-button" [ngClass]="{ 'active-filter': activeBookingFilter === 'today' }"
+                            (click)="filterBookingsToday()">
+                            Aujourd'hui
+                          </button>
+                          <button class="btn filter-button" [ngClass]="{ 'active-filter': activeBookingFilter === 'week' }"
+                            (click)="filterBookingsThisWeek()">
+                            Cette semaine
+                          </button>
+                          <button class="btn filter-button" [ngClass]="{ 'active-filter': activeBookingFilter === 'month' }"
+                            (click)="filterBookingsThisMonth()">
+                            Ce mois
+                          </button>
+                        </div>
+  
+                        <!-- Bookings Table -->
+                        <div class="table-responsive rounded table-hover">
+                          <table class="table text-black card-table dataTable mb-4 table-responsive-lg dataTablesCard" id="bookingsTable">
+                            <thead class="bg-primary">
+                              <tr>
+                                <th>Nom de cours</th>
+                                <th>Nom de l'utilisateur</th>
+                                <th>Statut</th>
+                                <th>Date de création</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr class="alert alert-dismissible border-0"
+                                *ngFor="let booking of filteredBookings | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <td>{{ booking.scheduledSession?.name }}</td>
+                                <td>{{ booking.user?.fullname }}</td>
+                                <td>
+                                  <select
+                                    class="form-control"
+                                    [ngModel]="booking.status"
+                                    (ngModelChange)="updateBookingStatus(booking, $event)"
+                                  >
+                                    <option [ngValue]="'confirmé'">Confirmé</option>
+                                    <option [ngValue]="'annulé'">Annulé</option>
+                                  </select>
+                                </td>
+                                
+                                <td>{{ booking.createdAt | date: 'dd/MM/yyyy' }}</td>
+                                <td>
+                                  <div class="dropdown ml-auto dropdown-no-icon" ngbDropdown display="dynamic">
+                                
+                                    <td>
+                                      <button
+                                        class="btn btn-sm"
+                                        style="background-color: #F8D7D0; border-color: #F4A8A1; color: #000;"
+                                        (click)="deleteConfirmation(booking.id || '')"
+                                      >
+                                        Supprimer
+                                      </button>
+                                    </td>
+                                    
+                                    
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                        
+                      </div>
+                    </ng-template>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div [ngbNavOutlet]="nav" class=""></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

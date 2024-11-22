@@ -19,6 +19,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Cours } from '../models/cours';
 import { Coach } from '../models/coach';
 import { ScheduledSession } from '../models/scheduledSession';
+import { Booking } from '../models/bookings';
 
 
 export interface WeeklyBooking {
@@ -135,17 +136,27 @@ getSession(): Observable<ScheduledSession[]> {
 deleteSession(coursId: string): Observable<object> {
   return this.http.delete<object>(`http://localhost:3001/api/v1/scheduledSessions/${coursId}`);
 }
- 
+updateSession(user: ScheduledSession): Observable<ScheduledSession> {
+  return this.http.put<ScheduledSession>(`http://localhost:3001/api/v1/scheduledSessions/${user.id}`, user);
+}
 
+/////Booking
 
+getBooking(): Observable<Booking[]> {
+  return this.http.get<Booking[]>('http://localhost:3001/api/v1/bookings');
+}
 
+createBooking(user: Booking): Observable<Booking> {
+  return this.http.post<Booking>('http://localhost:3001/api/v1/bookings', user);
+}
 
+deleteBooking(coursId: string): Observable<object> {
+  return this.http.delete<object>(`http://localhost:3001/api/v1/bookings/${coursId}`);
+} 
 
-
-
-
-
-
+updateBooking(user: Booking): Observable<Booking> {
+  return this.http.put<Booking>(`http://localhost:3001/api/v1/bookings/${user.id}/status`, user);
+}
 
 
 

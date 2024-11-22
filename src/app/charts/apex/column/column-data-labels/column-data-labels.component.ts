@@ -10,7 +10,7 @@ import {
   ApexXAxis,
   ApexFill
 } from "ng-apexcharts";
-import { UserService, MonthPercentage,WeeklyBooking  } from 'src/app/services/userService';
+import { UserService, WeeklyBooking } from 'src/app/services/userService';
 
 export type ChartOptions = {
   series?: ApexAxisChartSeries | any;
@@ -31,7 +31,6 @@ export type ChartOptions = {
 export class ColumnDataLabelsComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
-  expirationStats: MonthPercentage[] = [];
 
   constructor(private userService: UserService) {
     this.chartOptions = {
@@ -78,7 +77,6 @@ export class ColumnDataLabelsComponent implements OnInit {
           opacityTo: 1
         }
       },
-     
       title: {
         text: "Réservations Hebdomadaires par Type de Cours",
         offsetY: 330,
@@ -96,16 +94,13 @@ export class ColumnDataLabelsComponent implements OnInit {
         this.updateChartOptions(data);
       },
       (error) => {
-        console.error('Error fetching weekly bookings', error);
+        console.error('Error fetching weekly bookings:', error);
       }
     );
   }
 
   updateChartOptions(data: WeeklyBooking[]) {
-    // Prepare data for chart
     const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
-    
-    // Organize data by course type
     const courses = [...new Set(data.map(item => item.courseName))];
     const dayIndices = daysOfWeek.reduce((acc, day, index) => {
       acc[day] = index;
@@ -113,7 +108,7 @@ export class ColumnDataLabelsComponent implements OnInit {
     }, {} as { [key: string]: number });
 
     const seriesData = courses.map(course => {
-      const dataByDay = new Array(7).fill(0); // Array to hold bookings per day
+      const dataByDay = new Array(7).fill(0); // Initialize with zeros
       data.forEach(item => {
         if (item.courseName === course) {
           dataByDay[dayIndices[item.dayOfWeek]] = item.totalBookings;
