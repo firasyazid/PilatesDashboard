@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { ScheduledSession } from '../models/scheduledSession';
 
 @Component({
   selector: 'app-bookings',
@@ -13,10 +14,18 @@ import timeGridPlugin from '@fullcalendar/timegrid';
   styleUrls: ['./bookings.component.css']
 })
 export class BookingsComponent implements OnInit {
+
+
+  weekDays: string[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  hours: string[] = Array.from({ length: 17 }, (_, i) => `${i + 7}:00`); // From 7:00 to 23:00
+
   bookings: Booking[] = []; // All bookings
   filteredBookings: Booking[] = []; // Filtered bookings
   activeBookingFilter: string = ''; // Track the active filter (today, week, month)
   p: number = 1;
+  selectedFilter: string = ''; // Track the selected filter
+  scheduledSessions: ScheduledSession[] = []; // All scheduled sessions for the dropdown
+  selectedSessionName: string = ''; // Track selected session
 
   newBooking: Booking = {
     scheduledSession: {
@@ -55,7 +64,10 @@ export class BookingsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getBookings(); // Fetch bookings on initialization
+    this.getBookings(); 
+    this.getScheduledSessionsForToday();
+    this.getScheduledSessionsForWeek();
+
   }
 
   // Fetch all bookings from the API
@@ -86,37 +98,63 @@ export class BookingsComponent implements OnInit {
 
 
 // Filter bookings for this week
+// Filter bookings for this week
 filterBookingsThisWeek(): void {
   const today = new Date();
-  const startOfWeek = new Date(today.setDate(today.getDate() - today.getDay() + 1)); // Get Monday of this week
-  const endOfWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() + (7 - today.getDay())); // Get Sunday of this week
+
+  // Set startOfWeek to Monday
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - ((today.getDay() || 7) - 1)); // Adjust to Monday
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  // Set endOfWeek to Sunday
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get Sunday
+  endOfWeek.setHours(23, 59, 59, 999); // Ensure it includes all of Sunday
 
   this.filteredBookings = this.bookings.filter((booking) => {
     if (booking.createdAt) {
       const bookingDate = new Date(booking.createdAt);
       return bookingDate >= startOfWeek && bookingDate <= endOfWeek;
     }
-    return false; // Skip if createdAt is undefined
+    return false;
   });
+
   this.activeBookingFilter = 'week'; // Set the active filter to 'week'
 }
 
-
-// Filter bookings for this month
-filterBookingsThisMonth(): void {
+// Filter bookings by each day of the week
+filterBookingsByDay(day: string): void {
   const today = new Date();
-  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1); // Get the first day of this month
-  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Get the last day of this month
+
+  // Calculate startOfWeek based on Monday
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - ((today.getDay() || 7) - 1)); // Adjust to Monday
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  // Calculate the specific day
+  const targetDate = new Date(startOfWeek);
+  const dayIndex = this.weekDays.indexOf(day.charAt(0).toUpperCase() + day.slice(1).toLowerCase());
+  if (dayIndex >= 0) {
+    targetDate.setDate(startOfWeek.getDate() + dayIndex); // Adjust to the selected day
+    targetDate.setHours(0, 0, 0, 0);
+  }
 
   this.filteredBookings = this.bookings.filter((booking) => {
     if (booking.createdAt) {
       const bookingDate = new Date(booking.createdAt);
-      return bookingDate >= startOfMonth && bookingDate <= endOfMonth;
+      return bookingDate.toDateString() === targetDate.toDateString();
     }
-    return false; // Skip if createdAt is undefined
+    return false;
   });
-  this.activeBookingFilter = 'month'; // Set the active filter to 'month'
+
+  this.activeBookingFilter = day.toLowerCase(); // Set the active filter to the selected day
 }
+
+
+
+// Filter bookings for this month
+ 
 
 deleteConfirmation(Id: string) {
   if(window.confirm('Etes-vous sûr de vouloir supprimer cet réservation?')) {
@@ -154,5 +192,112 @@ deleteConfirmation(Id: string) {
     );
   }
   
+// Filter bookings for each day of the week
+ 
+
+
+// Filter bookings for this month
+filterBookingsThisMonth(): void {
+  const today = new Date();
+  const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1); // First day of the month
+  const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of the month
+
+  this.filteredBookings = this.bookings.filter((booking) => {
+    if (booking.createdAt) {
+      const bookingDate = new Date(booking.createdAt);
+      return bookingDate >= startOfMonth && bookingDate <= endOfMonth;
+    }
+    return false;
+  });
+
+  this.activeBookingFilter = 'month'; // Set the active filter to 'month'
+}
+
+
+getScheduledSessionsForToday(): void {
+  const today = new Date().toISOString().split('T')[0]; // Today's date in YYYY-MM-DD format
+
+  this.userService.getSession().subscribe(
+    (sessions: ScheduledSession[]) => {
+      // Filter sessions that match today's date
+      this.scheduledSessions = sessions.filter((session) => {
+        const sessionDate = new Date(session.date).toISOString().split('T')[0];
+        return sessionDate === today;
+      });
+    },
+    (error) => {
+      console.error('Error fetching scheduled sessions:', error);
+    }
+  );
+}
+
+// Apply filter based on the selected session
+filterBookingsBySession(): void {
+  if (this.selectedSessionName) {
+    this.filteredBookings = this.bookings.filter(
+      (booking) => booking.scheduledSession.name === this.selectedSessionName
+    );
+  } else {
+    this.filteredBookings = this.bookings; // Show all bookings if no session is selected
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+getSessionsForDayAndHour(day: string, hour: string): ScheduledSession[] {
+  const today = new Date();
+  const startOfWeek = new Date(today.setDate(today.getDate() - ((today.getDay() + 6) % 7))); // Commence lundi
+  const targetDate = new Date(startOfWeek);
+  targetDate.setDate(startOfWeek.getDate() + this.weekDays.indexOf(day)); // Trouve le jour de la semaine
+
+  return this.scheduledSessions.filter((session) => {
+    const sessionDate = new Date(session.date);
+    const sessionHour = parseInt(session.startTime.split(':')[0], 10);
+
+    return (
+      sessionDate.toDateString() === targetDate.toDateString() &&
+      sessionHour === parseInt(hour, 10)
+    );
+  });
+}
+
+getScheduledSessionsForWeek(): void {
+  const today = new Date();
+  // Définir le début de la semaine (lundi 00:00)
+  const startOfWeek = new Date(today);
+  startOfWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7)); // Lundi
+  startOfWeek.setHours(0, 0, 0, 0); // Lundi à 00:00
+
+  // Définir la fin de la semaine (dimanche 23:59:59)
+  const endOfWeek = new Date(startOfWeek);
+  endOfWeek.setDate(startOfWeek.getDate() + 6); // Dimanche
+  endOfWeek.setHours(23, 59, 59, 999); // Dimanche à 23:59:59
+
+  this.userService.getSession().subscribe(
+    (sessions: ScheduledSession[]) => {
+      this.scheduledSessions = sessions.filter((session) => {
+        const sessionDate = new Date(session.date);
+        return sessionDate >= startOfWeek && sessionDate <= endOfWeek; // Sessions entre lundi et dimanche
+      });
+
+      console.log('Sessions planifiées pour cette semaine :', this.scheduledSessions);
+    },
+    (error) => {
+      console.error('Erreur lors de la récupération des sessions planifiées :', error);
+    }
+  );
+}
+
+ 
 
 }

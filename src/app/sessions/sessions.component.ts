@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { UserService } from '../services/userService';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
@@ -21,7 +21,10 @@ export class SessionsComponent implements OnInit {
   isModal = false;
   p: number = 1;
   selectedSession: any = {}; // Holds the session to edit
-
+  bookingsForSession: any[] = []; // Store bookings for the selected session
+  loadingBookings: boolean = false; // Loading indicator
+  @ViewChild('bookingModal') bookingModal: TemplateRef<any> | undefined; // Reference to the modal
+  
   newScheduledSession: ScheduledSession = {
     name: '',
     cours: {
@@ -43,9 +46,12 @@ export class SessionsComponent implements OnInit {
     createdAt: new Date(),
   };
 
-  activeFilter: string = ''; // Track the active filter (today, week, month)
-  coaches: any[] = []; // List of coaches
-  courses: any[] = []; // List of courses
+  activeFilter: string = ''; 
+  coaches: any[] = [];  
+  courses: any[] = []; 
+  
+  weekDays: { key: string; label: string }[] = []; // Holds keys and labels for days of the week
+
 
   constructor(
     private userService: UserService,
@@ -61,8 +67,35 @@ export class SessionsComponent implements OnInit {
     this.getSessions(); 
     this.getCoaches();
       this.getCourses();
-   }
+      this.generateWeekDays(); // Generate weekdays dynamically
 
+   }
+   openBookingModal(sessionId: string): void {
+    this.loadingBookings = true;
+    this.bookingsForSession = [];
+  
+    this.userService.getBookingUsers(sessionId).subscribe(
+      (bookings) => {
+         this.bookingsForSession = bookings;
+        this.loadingBookings = false;
+  
+        if (this.bookingsForSession.length === 0) {
+          // Display a SnackBar message if no bookings are found
+          this.openSnackBar('Aucune réservation trouvée pour cette session.', 'Fermer');
+        } else {
+          // Open the modal if bookings are found
+          this.modalService.open(this.bookingModal, { centered: true });
+        }
+      },
+      (error) => {
+        console.error('Error fetching bookings:', error);
+        this.loadingBookings = false;
+        this.openSnackBar('Aucune réservation trouvée pour cette session.', 'Fermer');
+      }
+    );
+  }
+  
+  
   // Fetch all sessions from the API
   getSessions(): void {
     this.userService.getSession().subscribe((sessions: ScheduledSession[]) => {
@@ -195,7 +228,28 @@ export class SessionsComponent implements OnInit {
   }
 
 
-
+  generateWeekDays(): void {
+    const daysOfWeek = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    const today = new Date();
+    const currentDay = today.getDay();
+  
+    this.weekDays = [];
+    for (let i = 0; i < 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() - currentDay + i);
+      const key = date.toISOString().split('T')[0]; // Key as YYYY-MM-DD
+      this.weekDays.push({ key, label: daysOfWeek[i] });
+    }
+  }
+  
+  filterByDay(dayKey: string): void {
+    this.filteredSessions = this.ScheduledSession.filter((session) => {
+      const sessionDate = new Date(session.date).toISOString().split('T')[0];
+      return sessionDate === dayKey; // Match session date with the selected day
+    });
+    this.activeFilter = dayKey; // Set the active filter to the selected day
+  }
+  
 
 
 }

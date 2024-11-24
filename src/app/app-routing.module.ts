@@ -139,6 +139,8 @@ import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-an
 import { AuthGuardService } from './services/AuthGuardService';
 import { SessionsComponent } from './sessions/sessions.component';
 import { BookingsComponent } from './bookings/bookings.component';
+import { CalendarComponent } from './calendar/calendar.component';
+
 
 
 
@@ -150,6 +152,7 @@ const routes: Routes = [
       canActivate: [AuthGuardService], // Protect all admin routes
       children: [
           { path: '', component: LightComponent },
+          {path: 'calendar', component: CalendarComponent},
           { path: 'index', component: LightComponent },
           { path: 'index-1', component: LightComponent },
           { path: 'dashboard', component: LightComponent },

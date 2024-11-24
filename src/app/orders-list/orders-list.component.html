@@ -1,7 +1,8 @@
 <div class="content-body">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xl-12">
+      
+           <div class="col-xl-12">
         <div class="card bg-transparent shadow-none">
           <div class="card-header flex-wrap border-0 p-0 justify-content-start">
             <div class="table-tabs mr-2 mb-3 mr-auto">
@@ -168,16 +169,10 @@
             </div>
 
 
-            <mat-form-field appearance="fill" class="style-2 mr-3 mb-3 dashboard-select">
-              <mat-select placeholder="Filter" [(value)]="selectedFilter" (selectionChange)="applyFilter()">
-                <mat-option value="Date">Filter by expire date</mat-option>
-              </mat-select>
-            </mat-form-field>
-
 
 
             <mat-form-field appearance="fill" class="style-2 mb-3 dashboard-select"
-              style="right: 50rem; width: 320px; margin: 10px 0;">
+              style="right: 30rem; width: 320px; margin: 10px 0;">
               <input matInput placeholder="Enter a name" [(ngModel)]="searchTerm">
               <button mat-icon-button matSuffix (click)="search()">
                 <mat-icon style="color: #000;">search</mat-icon>

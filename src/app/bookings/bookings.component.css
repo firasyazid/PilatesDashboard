@@ -20,3 +20,58 @@
     background-color: #cf6a68; /* Active button color */
     color: white;
   }
+
+
+
+
+  .calendar-container {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border: 1px solid #ddd;
+  }
+  
+  .calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: #f4f4f4;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .calendar-day {
+    padding: 10px;
+  }
+  
+  .calendar-body {
+    display: grid;
+    grid-template-rows: repeat(24, auto);
+    border-top: 1px solid #ddd;
+  }
+  
+  .calendar-row {
+    display: grid;
+    grid-template-columns: 80px repeat(7, 1fr);
+  }
+  
+  .calendar-hour {
+    text-align: center;
+    border-right: 1px solid #ddd;
+    padding: 5px;
+    background-color: #f4f4f4;
+  }
+  
+  .calendar-cell {
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 5px;
+  }
+  
+  .calendar-session {
+    background-color: #F8D7D0; /* Light coral */
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  

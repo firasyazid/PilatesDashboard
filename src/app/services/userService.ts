@@ -158,6 +158,9 @@ updateBooking(user: Booking): Observable<Booking> {
   return this.http.put<Booking>(`http://localhost:3001/api/v1/bookings/${user.id}/status`, user);
 }
 
+getBookingUsers(scheduledSessionId: string): Observable<any[]> {
+  return this.http.get<any[]>(`http://localhost:3001/api/v1/bookings/${scheduledSessionId}/users`);
+}
 
 
 

@@ -8,29 +8,28 @@
             <div class="col-xl-3 col-xxl-4">
                 <div class="row">
                     <div class="col-xl-12 col-lg-6 col-md-6">
-                        <div class="card">
+                        <div  
+                            
+                        class="card" 
+                        style="margin-top: 10px; 
+                        margin-left: -60px;"
+                        >
                             <app-pie-simple></app-pie-simple>
 
                             <h1  
-                            
-                            style="margin-bottom: 20px;
-                             font-weight: 200;
-                            color:#444;
-                            font-size: 1rem;
-                            text-align: center;
-                            align-self: center;
-                            font-weight: 500;
-                             
-
-                            "
-                            > Plans d'abonnement </h1>
+                             style="margin-bottom: 20px;
+                                    font-weight: 200;
+                                    color:#444;
+                                    font-size: 1rem;
+                                    text-align: center;
+                                    align-self: center;
+                                    font-weight: 500;"
+                            >
+                                Plans d'abonnement
+                            </h1>
                         </div>
                     </div>
-                    <div class="col-xl-12 col-lg-6 col-m-6">
-                        <div class="card trending-menus">
-                            <app-daily-trending-menus [data]="trendingMenus"></app-daily-trending-menus>
-                        </div>
-                    </div>
+                    <div class="col-xl-12 col-lg-6 col-m-6"></div>
                 </div>
             </div>
             <div class="col-xl-9 col-xxl-8">
@@ -51,25 +50,26 @@
                         </div>
                     </div>
                     <div 
-                        style="margin-top: 40px;"
-                    class="col-xl-12">
-                        <div 
-
-                        class="card">
-                            <app-column-data-labels></app-column-data-labels>
-                        </div>
-                    </div>
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <app-recent-order-request [data]="recentOrder"></app-recent-order-request>
-                        </div>
-                    </div>
+                    style="margin-top: 10px; 
+                    margin-left: 55px;
+                    background-color: #f9f9f9; /* Change the background here */
+                    padding: 20px; /* Add some padding */
+                    border-radius: 8px; /* Add rounded corners */
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow */
+                "
+                    class="card">
+                    <app-calendar></app-calendar>
+                </div>
+                
+                
                 </div>
             </div>
         </div>
     </div>
-    
 </div>
 <!--**********************************
+                                <app-column-data-labels></app-column-data-labels>
+
+   
     Content body end
 ***********************************-->

@@ -11,12 +11,34 @@
                     <a class="nav-link" ngbNavLink>Calendrier</a>
                     <ng-template ngbNavContent>
                       <div class="calendar-container">
-                      
+                        <div class="calendar-header">
+                          <div class="calendar-day" *ngFor="let day of weekDays">{{ day }}</div>
+                        </div>
+                        <div class="calendar-body">
+                          <div class="calendar-row" *ngFor="let hour of hours">
+                            <div class="calendar-hour">{{ hour }}</div>
+                            <div class="calendar-cell" *ngFor="let day of weekDays">
+                              <div class="calendar-session" *ngFor="let session of getSessionsForDayAndHour(day, hour)">
+                                {{ session.name }}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
+                      
+                      
                     </ng-template>
                   
                   </li>
-  
+
+
+ 
+
+
+
+
+
+
                   <!-- Bookings Tab -->
                   <li class="nav-item" ngbNavItem="AllBookings">
                     <a class="nav-link" ngbNavLink>Réservations</a>
@@ -24,26 +46,91 @@
                       <div class="tab-pane fade active show" id="AllBookings">
                         <!-- Filter Buttons -->
                         <div class="btn-group mt-3 mb-3">
-                          <button class="btn filter-button" [ngClass]="{ 'active-filter': activeBookingFilter === 'today' }"
-                            (click)="filterBookingsToday()">
-                            Aujourd'hui
+                          <!-- Daily Filters -->
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'monday' }"
+                            (click)="filterBookingsByDay('monday')"
+                          >
+                            Lundi
                           </button>
-                          <button class="btn filter-button" [ngClass]="{ 'active-filter': activeBookingFilter === 'week' }"
-                            (click)="filterBookingsThisWeek()">
-                            Cette semaine
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'tuesday' }"
+                            (click)="filterBookingsByDay('tuesday')"
+                          >
+                            Mardi
                           </button>
-                          <button class="btn filter-button" [ngClass]="{ 'active-filter': activeBookingFilter === 'month' }"
-                            (click)="filterBookingsThisMonth()">
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'wednesday' }"
+                            (click)="filterBookingsByDay('wednesday')"
+                          >
+                            Mercredi
+                          </button>
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'thursday' }"
+                            (click)="filterBookingsByDay('thursday')"
+                          >
+                            Jeudi
+                          </button>
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'friday' }"
+                            (click)="filterBookingsByDay('friday')"
+                          >
+                            Vendredi
+                          </button>
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'saturday' }"
+                            (click)="filterBookingsByDay('saturday')"
+                          >
+                            Samedi
+                          </button>
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'sunday' }"
+                            (click)="filterBookingsByDay('sunday')"
+                          >
+                            Dimanche
+                          </button>
+                        
+                          <!-- Monthly Filter -->
+                          <button
+                            class="btn filter-button"
+                            [ngClass]="{ 'active-filter': activeBookingFilter === 'month' }"
+                            (click)="filterBookingsThisMonth()"
+                          >
                             Ce mois
                           </button>
                         </div>
+                        
+
+
+                            
+                        <mat-form-field appearance="fill"  
+                        style="margin-left: 20rem;"
+                        class="style-2 mr-3 mb-3 dashboard-select">
+                          <mat-select
+                            placeholder="Select Today's Session"
+                            [(value)]="selectedSessionName"
+                            (selectionChange)="filterBookingsBySession()"
+                          >
+                            <mat-option *ngFor="let session of scheduledSessions" [value]="session.name">
+                              {{ session.name }}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
   
                         <!-- Bookings Table -->
                         <div class="table-responsive rounded table-hover">
                           <table class="table text-black card-table dataTable mb-4 table-responsive-lg dataTablesCard" id="bookingsTable">
                             <thead class="bg-primary">
                               <tr>
-                                <th>Nom de cours</th>
+                                <th>Nom du session</th>
+                                <th>Nom du cours</th>
                                 <th>Nom de l'utilisateur</th>
                                 <th>Statut</th>
                                 <th>Date de création</th>
@@ -54,6 +141,7 @@
                               <tr class="alert alert-dismissible border-0"
                                 *ngFor="let booking of filteredBookings | paginate: { itemsPerPage: 10, currentPage: p }">
                                 <td>{{ booking.scheduledSession?.name }}</td>
+                                <td>{{ booking.scheduledSession?.cours?.name }}</td>
                                 <td>{{ booking.user?.fullname }}</td>
                                 <td>
                                   <select
@@ -88,6 +176,13 @@
                           </table>
                           <pagination-controls (pageChange)="p = $event"></pagination-controls>
                         </div>
+                     
+                        
+                    
+                        
+                        <!-- Display filtered bookings -->
+                   
+                        
                         
                       </div>
                     </ng-template>

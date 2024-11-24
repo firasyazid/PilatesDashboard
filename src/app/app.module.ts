@@ -724,12 +724,13 @@ import { MultipleChoiceComponent } from './multiple-choice/multiple-choice.compo
 import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-and-drop-component.component';
 import { SessionsComponent } from './sessions/sessions.component';
 import { BookingsComponent } from './bookings/bookings.component';
+import { CalendarComponent } from './calendar/calendar.component';
  
 @NgModule({
   declarations: [
      AppComponent,
     NgbdSortableHeader,
-    
+    CalendarComponent ,
     AdminComponent,
     LoadingComponent,
     NavHeaderComponent,
@@ -1363,6 +1364,7 @@ import { BookingsComponent } from './bookings/bookings.component';
          DragAndDropComponentComponent,
          SessionsComponent,
          BookingsComponent,
+         CalendarComponent,
   ],
   imports: [
     FullCalendarModule,

@@ -1,0 +1,94 @@
+.calendar-container {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  border: 1px solid #ddd;
+  background-color: #fff8f8; /* Softer background */
+  border-radius: 12px; /* Slightly more rounded corners */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
+  overflow-x: auto;
+  width: 95%; /* Increased width to occupy more space */
+  margin: 0 auto; /* Center within parent container */
+}
+
+.calendar-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background-color: #ffe5e5; /* Subtle background */
+  border-bottom: 1px solid #ddd;
+}
+
+.calendar-day {
+  padding: 16px; /* Increased padding for larger header cells */
+  text-align: center;
+  font-weight: bold;
+  color: #444;
+  font-size: 16px; /* Larger font for day names */
+}
+
+.calendar-body {
+  display: grid;
+  grid-template-rows: repeat(24, auto);
+  grid-template-columns: 80px repeat(7, 1fr); /* Wider hour column */
+}
+
+.calendar-row {
+  display: contents; /* Maintain grid layout across rows */
+}
+
+.calendar-hour {
+  text-align: center;
+  font-size: 14px; /* Larger font size for hours */
+  background-color: #f9f9f9;
+  border-right: 1px solid #ddd;
+  line-height: 50px; /* Taller rows */
+  color: #666;
+  font-weight: 500;
+}
+
+.calendar-cell {
+  border: 1px solid #ddd;
+  min-height: 50px; /* Taller cells */
+  position: relative;
+  background-color: #fff; /* White background for cells */
+  transition: background-color 0.3s;
+}
+
+.calendar-cell:hover {
+  background-color: #fef1f1; /* Slight hover effect */
+}
+
+.calendar-session {
+  background-color: #f78ca0; /* Bright session color */
+  color: #fff; /* White text for contrast */
+  border-radius: 6px; /* Slightly more rounded */
+  padding: 8px; /* Larger padding for sessions */
+  margin: 4px; /* More spacing between sessions */
+  font-size: 14px; /* Larger font size for session text */
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: 600; /* Slightly bolder font */
+}
+
+.calendar-session:hover {
+  background-color: #ff6f91; /* Darker hover color */
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .calendar-container {
+    font-size: 14px;
+  }
+  .calendar-hour {
+    font-size: 12px;
+    line-height: 40px;
+  }
+  .calendar-day {
+    font-size: 14px;
+  }
+  .calendar-session {
+    font-size: 12px;
+    padding: 6px;
+  }
+}
