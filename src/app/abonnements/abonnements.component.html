@@ -1,0 +1,391 @@
+<div class="content-body">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12">
+          <div class="card bg-transparent shadow-none">
+            <div class="card-header flex-wrap border-0 p-0 justify-content-start">
+              <div class="table-tabs mr-2 mb-3 mr-auto">
+                <ul class="nav nav-tabs" ngbNav #nav="ngbNav" role="tablist">
+                  <li class="nav-item" ngbNavItem="AllStatus">
+                    <a style="margin: 2rem;" class="nav-link" data-toggle="tab" aria-expanded="false" ngbNavLink
+                      
+                    (click)="showDialog()"
+
+                    >
+                      Ajouter un abonnements
+                    </a>
+   
+  
+
+                    <ng-template ngbNavContent>
+                        <div class="tab-pane fade active show" id="AllAbonnements">
+                          <div class="table-responsive rounded table-hover">
+                            <table
+                              class="table text-black card-table dataTable mb-4 table-responsive-lg dataTablesCard"
+                              id="dataTable1"
+                            >
+                              <thead class="bg-primary">
+                                <tr>
+                                  <th>Nom</th>
+                                  <th>Nombre de séances</th>
+                                  <th>Durée (jours)</th>
+                                  <th>Prix (DT)</th>
+                                  <th>Nombre d'utilisateurs</th>  
+
+                                  <th>Action</th> 
+
+                                  <th style="background-image:none;"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr
+                                  class="alert alert-dismissible border-0"
+                                  *ngFor="let abonnement of abonnements | paginate: { itemsPerPage: 8, currentPage: p }"
+                                >
+                                  <td>{{ abonnement.name }}</td>
+                                  <td>{{ abonnement.sessionCount }}</td>
+                                  <td>{{ abonnement.duration }}</td>
+                                  <td>{{ abonnement.price  }}</td>
+                                  <td>{{ abonnement.userCount || 0 }}</td> <!-- Display user count -->
+
+                                  <td>
+                                    <!-- Button to open modal -->
+                                    <button
+                                      class="btn btn-sm btn-primary"
+                                      (click)="openBookingModal(abonnement.id || '')"
+                                     >
+                                      Voir Réservations
+                                    </button>
+                                  </td>
+                                  <td>
+                                    <div class="dropdown dropdown-no-icon" ngbDropdown>
+                                      <a
+                                        class="btn-link"
+                                        href="javascript:void(0)"
+                                        data-toggle="dropdown"
+                                        aria-expanded="false"
+                                        ngbDropdownToggle
+                                      >
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          xmlns:xlink="http://www.w3.org/1999/xlink"
+                                          width="24px"
+                                          height="24px"
+                                          viewBox="0 0 24 24"
+                                          version="1.1"
+                                        >
+                                          <g
+                                            stroke="none"
+                                            stroke-width="1"
+                                            fill="none"
+                                            fill-rule="evenodd"
+                                          >
+                                            <rect x="0" y="0" width="24" height="24"></rect>
+                                            <circle fill="#000000" cx="12" cy="5" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="12" r="2"></circle>
+                                            <circle fill="#000000" cx="12" cy="19" r="2"></circle>
+                                          </g>
+                                        </svg>
+                                      </a>
+                                      <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
+                                        <a
+                                          class="dropdown-item text-info"
+                                           
+                                            (click)="openEditDialog(abonnement)"
+
+                                        >
+                                          Modifier abonnement
+                                        </a>
+                                        <a
+                                          href="javascript:void(0);"
+                                          data-dismiss="alert"
+                                          aria-label="Close"
+                                          class="dropdown-item"
+                                          style="color: red;"
+                                          (click)="deleteConfirmation(abonnement.id || '')"
+
+ 
+                                           
+                                        >
+                                          Supprimer abonnement
+                                        </a>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                          </div>
+                        </div>
+                      </ng-template>
+                      
+
+
+
+
+                      <ng-template #bookingModal let-modal>
+                        <div class="modal-header custom-modal-header">
+                          <h4 class="modal-title">Réservations pour cet abonnement</h4>
+                          <button
+                            type="button"
+                            class="close text-white"
+                            aria-label="Close"
+                            (click)="modal.dismiss('Cross click')"
+                          >
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                          <div *ngIf="loadingBookings" class="text-center">
+                            <p class="text-muted">Chargement des réservations...</p>
+                          </div>
+                          <div *ngIf="!loadingBookings && bookingsForSession.length === 0" class="text-center">
+                            <p class="text-danger">Aucune réservation trouvée pour cette abonnement.</p>
+                          </div>
+                          <div *ngIf="!loadingBookings && bookingsForSession.length > 0">
+                            <ul class="custom-list">
+                              <li *ngFor="let booking of bookingsForSession" class="custom-list-item">
+                                <span class="booking-name">{{ booking.fullname || 'Nom inconnu' }}</span>
+                                <span class="booking-id">{{ booking.phone }}</span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn custom-btn"
+                            (click)="modal.dismiss('Close click')"
+                          >
+                            Fermer
+                          </button>
+                        </div>
+                      </ng-template>
+
+
+
+
+
+
+
+
+
+                  </li>
+  
+                  <p-dialog
+                  header="Modifier Abonnement"
+                  [(visible)]="displayDialog3"
+                  [style]="{ width: '50%', height: '70%' }"
+                  [responsive]="true"
+                  [modal]="isModal"
+                >
+                  <form (ngSubmit)="onUpdateAbonnement()">
+                    <!-- Abonnement Name -->
+                    <div class="form-group">
+                      <label for="name">Nom de l'abonnement</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        [(ngModel)]="newAbonnement.name"
+                        required
+                      />
+                      <div *ngIf="!newAbonnement.name && (name.dirty || name.touched)" class="text-danger">
+                        Le nom est obligatoire.
+                      </div>
+                    </div>
+                
+                    <!-- Session Count -->
+                    <div class="form-group">
+                      <label for="sessionCount">Nombre de sessions</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="sessionCount"
+                        name="sessionCount"
+                        [(ngModel)]="newAbonnement.sessionCount"
+                        required
+                      />
+                      <div *ngIf="newAbonnement.sessionCount <= 0 && (sessionCount.dirty || sessionCount.touched)" class="text-danger">
+                        Le nombre de sessions doit être supérieur à 0.
+                      </div>
+                    </div>
+                
+                    <!-- Duration -->
+                    <div class="form-group">
+                      <label for="duration">Durée (en mois)</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="duration"
+                        name="duration"
+                        [(ngModel)]="newAbonnement.duration"
+                        required
+                      />
+                      <div *ngIf="newAbonnement.duration <= 0 && (duration.dirty || duration.touched)" class="text-danger">
+                        La durée doit être supérieure à 0.
+                      </div>
+                    </div>
+                
+                    <!-- Price -->
+                    <div class="form-group">
+                      <label for="price">Prix</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="price"
+                        name="price"
+                        [(ngModel)]="newAbonnement.price"
+                        required
+                      />
+                      <div *ngIf="newAbonnement.price <= 0 && (price.dirty || price.touched)" class="text-danger">
+                        Le prix doit être supérieur à 0.
+                      </div>
+                    </div>
+                
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      style="background-color: #CF6A68; border-color: #CF6A68;"
+                      [disabled]="!newAbonnement.name || newAbonnement.sessionCount <= 0 || newAbonnement.duration <= 0 || newAbonnement.price <= 0"
+                    >
+                      Confirmer
+                    </button>
+                  </form>
+                </p-dialog>
+                
+                
+   
+  
+                  <p-dialog
+                  header="Ajouter un nouvel abonnement"
+                  [(visible)]="displayDialog"
+                  [style]="{ width: '50%', height: '70%' }"
+                  [responsive]="true"
+                  [modal]="true"
+                >
+                  <form (ngSubmit)="addAbonnement()" #abonnementForm="ngForm">
+                    <!-- Name -->
+                    <div class="form-group">
+                      <label for="name">Nom de l'abonnement</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        [(ngModel)]="newAbonnement.name"
+                        required
+                        #name="ngModel"
+                      />
+                      <div *ngIf="name.invalid && (name.dirty || name.touched)" class="text-danger">
+                        Le nom de l'abonnement est obligatoire.
+                      </div>
+                    </div>
+                
+                    <!-- Session Count -->
+                    <div class="form-group">
+                      <label for="sessionCount">Nombre de séances</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="sessionCount"
+                        name="sessionCount"
+                        [(ngModel)]="newAbonnement.sessionCount"
+                        required
+                        #sessionCount="ngModel"
+                      />
+                      <div *ngIf="sessionCount.invalid && (sessionCount.dirty || sessionCount.touched)" class="text-danger">
+                        Le nombre de séances est obligatoire.
+                      </div>
+                    </div>
+                
+                    <!-- Duration -->
+                    <div class="form-group">
+                      <label for="duration">Durée (en jours)</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="duration"
+                        name="duration"
+                        [(ngModel)]="newAbonnement.duration"
+                        required
+                        #duration="ngModel"
+                      />
+                      <div *ngIf="duration.invalid && (duration.dirty || duration.touched)" class="text-danger">
+                        La durée est obligatoire.
+                      </div>
+                    </div>
+                
+                    <!-- Price -->
+                    <div class="form-group">
+                      <label for="price">Prix (DT)</label>
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="price"
+                        name="price"
+                        [(ngModel)]="newAbonnement.price"
+                        required
+                        #price="ngModel"
+                      />
+                      <div *ngIf="price.invalid && (price.dirty || price.touched)" class="text-danger">
+                        Le prix est obligatoire.
+                      </div>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <div class="form-group text-center">
+                      <button
+                        type="submit"
+                        class="btn btn-primary"
+                        [disabled]="abonnementForm.invalid"
+                      >
+                        Ajouter
+                      </button>
+                    </div>
+                  </form>
+                </p-dialog>
+                
+   
+  
+
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+                </ul>
+              </div>
+  
+  
+             
+  
+   
+  
+  
+  
+  
+  
+            </div>
+  
+  
+            <div [ngbNavOutlet]="nav" class=""></div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--**********************************
+      Content body end
+  ***********************************-->

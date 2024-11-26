@@ -1,0 +1,50 @@
+ /* Custom modal header */
+ .custom-modal-header {
+    background-color: 'white'; /* Your preferred button color */
+    color: white;
+    border-bottom: 1px solid #ece0e0;
+  }
+  
+  /* Custom list styling */
+  .custom-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .custom-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .custom-list-item:hover {
+    background-color: #f4f4f4;
+  }
+  
+  .booking-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .booking-id {
+    font-size: 12px;
+    color: #777;
+  }
+  
+  /* Custom button styling */
+  .custom-btn {
+    background-color: #CF6A68;
+    color: white;
+    border: none;
+  }
+  
+  .custom-btn:hover {
+    background-color: #b95458;
+  }
+  

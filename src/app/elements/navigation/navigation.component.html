@@ -40,7 +40,14 @@
             <span class="nav-text">Bookings</span>
           </a>
         </li>
-  
+        
+        <li [ngClass]="{'mm-active': currentHref === '/admin/abonnements'}">
+          <a [routerLink]="['/admin/abonnements']" aria-expanded="false">
+            <i class="flaticon-025-dashboard"></i>
+            <span class="nav-text">Abonnements</span>
+          </a>
+        </li>
+        
         <!-- Email -->
         <li [ngClass]="{'mm-active': currentHref === '/admin/email-compose'}">
           <a [routerLink]="['/admin/email-compose']" aria-expanded="false">

@@ -110,17 +110,11 @@ import { DzmtTabsComponent } from './material/dzmt-tabs/dzmt-tabs.component';
 import { DzmtTooltipComponent } from './material/dzmt-tooltip/dzmt-tooltip.component';
 import { DzmtTreeComponent } from './material/dzmt-tree/dzmt-tree.component';
 import { DzmtToolbarComponent } from './material/dzmt-toolbar/dzmt-toolbar.component';
-
-
 import { NestableComponent } from './plugins/nestable/nestable.component';
 import { LightGalleryComponent } from './plugins/light-gallery/light-gallery.component';
-
 import { WidgetComponent } from './widget/widget.component';
-
-
 import { ElementsComponent } from './forms/elements/elements.component';
 import { FormValidateComponent } from './forms/form-validate/form-validate.component';
-
 import { TestCategoriesComponent } from './test-categories/test-categories.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -140,6 +134,7 @@ import { AuthGuardService } from './services/AuthGuardService';
 import { SessionsComponent } from './sessions/sessions.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { AbonnementsComponent } from './abonnements/abonnements.component';
 
 
 
@@ -149,10 +144,11 @@ const routes: Routes = [
   {
       path: 'admin',
       component: AdminComponent,
-      canActivate: [AuthGuardService], // Protect all admin routes
+      canActivate: [AuthGuardService],  
       children: [
           { path: '', component: LightComponent },
           {path: 'calendar', component: CalendarComponent},
+          {path: 'abonnements', component: AbonnementsComponent},
           { path: 'index', component: LightComponent },
           { path: 'index-1', component: LightComponent },
           { path: 'dashboard', component: LightComponent },

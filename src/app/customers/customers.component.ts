@@ -102,9 +102,6 @@ export class CustomersComponent implements OnInit {
 	}
 
 
-
-
-
 	deleteConfirmation(userId: string) {
    
 		if (window.confirm('Etes-vous sûr de vouloir supprimer cet entraîneur?')) {

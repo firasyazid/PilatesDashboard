@@ -80,11 +80,9 @@ export class SessionsComponent implements OnInit {
         this.loadingBookings = false;
   
         if (this.bookingsForSession.length === 0) {
-          // Display a SnackBar message if no bookings are found
-          this.openSnackBar('Aucune réservation trouvée pour cette session.', 'Fermer');
+           this.openSnackBar('Aucune réservation trouvée pour cette session.', 'Fermer');
         } else {
-          // Open the modal if bookings are found
-          this.modalService.open(this.bookingModal, { centered: true });
+           this.modalService.open(this.bookingModal, { centered: true });
         }
       },
       (error) => {

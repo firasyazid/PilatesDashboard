@@ -6,7 +6,7 @@
   border-radius: 12px; /* Slightly more rounded corners */
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Enhanced shadow */
   overflow-x: auto;
-  width: 95%; /* Increased width to occupy more space */
+  width: 120%; /* Increased width to occupy more space */
   margin: 0 auto; /* Center within parent container */
 }
 
@@ -22,7 +22,9 @@
   text-align: center;
   font-weight: bold;
   color: #444;
-  font-size: 16px; /* Larger font for day names */
+  font-size: 16px; 
+  margin-left: 35px;
+  /* Larger font for day names */
 }
 
 .calendar-body {
@@ -85,7 +87,8 @@
     line-height: 40px;
   }
   .calendar-day {
-    font-size: 14px;
+    font-size: 14px; 
+    margin-right: 2rem;
   }
   .calendar-session {
     font-size: 12px;

@@ -20,6 +20,7 @@ import { Cours } from '../models/cours';
 import { Coach } from '../models/coach';
 import { ScheduledSession } from '../models/scheduledSession';
 import { Booking } from '../models/bookings';
+import { Abonnement } from '../models/abonnements';
 
 
 export interface WeeklyBooking {
@@ -85,6 +86,8 @@ export class UserService {
   deleteUser(userId: string): Observable<object> {
     return this.http.delete<object>(`http://localhost:3001/api/v1/users/${userId}`);
   }
+
+
 
 ////////////cours 
 
@@ -161,6 +164,45 @@ updateBooking(user: Booking): Observable<Booking> {
 getBookingUsers(scheduledSessionId: string): Observable<any[]> {
   return this.http.get<any[]>(`http://localhost:3001/api/v1/bookings/${scheduledSessionId}/users`);
 }
+/////abonnements
+
+ 
+getAbonnements(): Observable<Abonnement[]> {
+  return this.http.get<Abonnement[]>('http://localhost:3001/api/v1/abonnements');
+}
+
+createAbonnement(user: Abonnement): Observable<Abonnement> {
+  return this.http.post<Abonnement>('http://localhost:3001/api/v1/abonnements', user);
+}
+
+deleteAbonnement(coursId: string): Observable<object> {
+  return this.http.delete<object>(`http://localhost:3001/api/v1/abonnements/${coursId}`);
+}
+
+updateAbonnement(user: Abonnement): Observable<Abonnement> {
+  return this.http.put<Abonnement>(`http://localhost:3001/api/v1/abonnements/${user.id}`, user);
+}
+
+getAbonnementUsers(abonnementId: string): Observable<any[]> {
+  return this.http.get<any[]>(`http://localhost:3001/api/v1/users/users-by-abonnement/${abonnementId}`);
+}
+
+getAbonnementUserCount(abonnementId: string): Observable<{ abonnementId: string; userCount: number }> {
+  return this.http.get<{ abonnementId: string; userCount: number }>(
+    `http://localhost:3001/api/v1/users/abonnement-user-count/${abonnementId}`
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 

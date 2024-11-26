@@ -725,6 +725,7 @@ import { DragAndDropComponentComponent } from './drag-and-drop-component/drag-an
 import { SessionsComponent } from './sessions/sessions.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { CalendarComponent } from './calendar/calendar.component';
+import { AbonnementsComponent } from './abonnements/abonnements.component';
  
 @NgModule({
   declarations: [
@@ -1365,6 +1366,7 @@ import { CalendarComponent } from './calendar/calendar.component';
          SessionsComponent,
          BookingsComponent,
          CalendarComponent,
+         AbonnementsComponent,
   ],
   imports: [
     FullCalendarModule,
